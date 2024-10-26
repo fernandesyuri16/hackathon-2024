@@ -22,15 +22,20 @@ app.get('/api/users', async (req, res) => {
 
 // Rota para criar um usuário
 app.post('/api/users', async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, hasInsurance, familySize} = req.body;
+
   try {
-    // Criptografa a senha antes de salvar
+    console.log('1')    // Criptografa a senha antes de salvar
     const hashedPassword = await bcrypt.hash(password, 10);
+    console.log('2')
     const newUser = await prisma.user.create({
-      data: { name, email, password: hashedPassword },
+      data: { email, name, password: hashedPassword, familySize, hasInsurance},
     });
+    console.log('3')
     res.status(201).json(newUser);
+    console.log('4')
   } catch (error) {
+    console.log(error)
     res.status(400).json({ error: 'Erro ao criar usuário.' });
   }
 });

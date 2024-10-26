@@ -52,12 +52,12 @@ router.get('/result/:userId/:type?', async (req, res) => {
     try {
         if (type === 'history') {
             // Retorna o histórico completo dos questionários do usuário
-            const history = await prisma.oHQResponse.findMany({
+            const history = await prisma.feedback.findMany({
                 where: { userId },
                 orderBy: { createdAt: 'desc' },
                 select: {
-                    question: true,
-                    response: true,
+                    score: true,
+                    feedback: true,
                     createdAt: true,
                 },
             });
@@ -65,8 +65,8 @@ router.get('/result/:userId/:type?', async (req, res) => {
             // Formata o histórico para facilitar a leitura
             const formattedHistory = history.map((result) => ({
                 date: result.createdAt,
-                questionId: result.question,
-                response: result.response,
+                score: result.score,
+                feedback: result.feedback,
             }));
 
             res.json(formattedHistory);
@@ -80,6 +80,16 @@ router.get('/result/:userId/:type?', async (req, res) => {
 
             const score = calculateOHQScore(latestResponses);
             const feedback = generateFeedback(score);
+
+            // Registra o resultado (score e feedback) no banco de dados
+            await prisma.feedback.create({
+                data: {
+                    score: score,
+                    feedback: feedback,
+                    userId: userId,
+                },
+            });
+
             res.json({ score, feedback });
         }
     } catch (error) {

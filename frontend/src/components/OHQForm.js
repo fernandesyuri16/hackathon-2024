@@ -5,9 +5,9 @@ import './OHQForm.css';
 import '../App.css';
 
 export default function OHQForm() {
-    const location = useLocation();
+    // const location = useLocation();
     const navigate = useNavigate();
-    const { userId } = location.state || {};
+    // const { userId } = location.state || {};
     const [questions, setQuestions] = useState([]);
     const [responses, setResponses] = useState({});
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -48,6 +48,8 @@ export default function OHQForm() {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
     };
+
+    const userId = Number(sessionStorage.getItem('userId'));
 
     const handleSubmit = async (e) => {
         e.preventDefault();

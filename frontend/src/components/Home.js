@@ -35,8 +35,8 @@ function Home() {
             history.map((result, index) => (
               <li key={index} className="history-item">
                 <p><strong>Data:</strong> {new Date(result.date).toLocaleDateString()}</p>
-                <p><strong>ID da Pergunta:</strong> {result.questionId}</p>
-                <p><strong>Resposta:</strong> {result.response}</p>
+                <p><strong>Pontuação:</strong> {result.score.toFixed(2)}</p>
+                <p><strong>Resultado:</strong> {result.feedback}</p>
               </li>
             ))
           ) : (

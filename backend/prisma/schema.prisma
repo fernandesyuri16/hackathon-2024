@@ -12,6 +12,8 @@ model User {
   email     String   @unique
   name      String
   password  String
+  hasInsurance Boolean
+  familySize Int
   createdAt DateTime @default(now())
 
   OHQResponse OHQResponse[]

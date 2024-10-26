@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Login from './components/Login';
 import Register from './components/Register';
-import Cep from './components/cep';
 import Questions from './components/OHQForm';
 import Result from './components/Result';
 import Home from './components/Home';
@@ -15,7 +14,6 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/cep" element={<Cep />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/result" element={<Result />} />
       </Routes>

@@ -12,7 +12,6 @@ model User {
   email     String   @unique
   name      String
   password  String
-  cep       String
   createdAt DateTime @default(now())
 
   OHQResponse OHQResponse[]

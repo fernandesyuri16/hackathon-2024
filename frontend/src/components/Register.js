@@ -8,8 +8,9 @@ function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [cep, setCep] = useState('');
   const [hasInsurance, setHasInsurance] = useState(false); // Estado para "Possui convênio?"
-  const [familySize, setFamilySize] = useState(0); // Estado para "Número de pessoas na família"
+  const [familySize, setFamilySize] = useState(''); // Estado para "Número de pessoas na família"
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -18,8 +19,8 @@ function Register() {
     setLoading(true);
 
     try {
-      console.log('Cadastrando:', name, email, password, hasInsurance, familySize);
-      const obj = {name, email, password, familySize, hasInsurance }
+      console.log('Cadastrando:', name, email, password, cep, hasInsurance, familySize);
+      const obj = {name, email, password, cep, familySize, hasInsurance }
 
       const response = await axios.post('http://localhost:3000/api/users', obj);
 
@@ -107,6 +108,19 @@ function Register() {
               <option value="true">Sim</option>
               <option value="false">Não</option>
             </select>
+          </div>
+
+          {/* Campo para CEP */}
+          <div className="form__field">
+            <label htmlFor="register__familySize">CEP</label>
+            <input
+              id="register__familySize"
+              type="number"
+              className="form__input"
+              value={cep}
+              onChange={(e) => setCep(Number(e.target.value))}
+              required
+            />
           </div>
 
           {/* Campo para Número de Pessoas na Família */}

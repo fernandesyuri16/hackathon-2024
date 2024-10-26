@@ -27,6 +27,7 @@ router.post('/submit', async (req, res) => {
         return res.status(400).json({ error: "userId é necessário" });
         }
 
+
         // Mapear as respostas com userId e questionId
         await prisma.oHQResponse.createMany({
         data: responses.map((response) => ({

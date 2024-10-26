@@ -3,8 +3,11 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
+const axios = require('axios');
+
 
 const ohqRoutes = require('../routes/ohqForm.js'); // Ajuste o caminho conforme necessário
+const user = require('../routes/user.js'); // Ajuste o caminho conforme necessário
 
 dotenv.config();
 
@@ -22,20 +25,15 @@ app.get('/api/users', async (req, res) => {
 
 // Rota para criar um usuário
 app.post('/api/users', async (req, res) => {
-  const { name, email, password, hasInsurance, familySize} = req.body;
+  const { name, email, password, cep, hasInsurance, familySize} = req.body;
 
   try {
-    console.log('1')    // Criptografa a senha antes de salvar
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log('2')
     const newUser = await prisma.user.create({
-      data: { email, name, password: hashedPassword, familySize, hasInsurance},
+      data: { email, name, password: hashedPassword, cep, familySize, hasInsurance},
     });
-    console.log('3')
     res.status(201).json(newUser);
-    console.log('4')
   } catch (error) {
-    console.log(error)
     res.status(400).json({ error: 'Erro ao criar usuário.' });
   }
 });
@@ -66,6 +64,7 @@ app.post('/api/login', async (req, res) => {
 
 // Configurar as rotas do questionário OHQ
 app.use('/api', ohqRoutes);
+app.use('/api', user);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

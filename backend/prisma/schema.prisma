@@ -12,6 +12,7 @@ model User {
   email     String   @unique
   name      String
   password  String
+  cep       Int
   hasInsurance Boolean
   familySize Int
   createdAt DateTime @default(now())
@@ -54,4 +55,13 @@ model Feedback {
 
   // Relacionamento com o usuário, caso tenha um modelo User
   User User @relation(fields: [userId], references: [id])
+}
+
+model Region {
+  id        Int      @id @default(autoincrement())
+  cep       Int      // Código postal associado ao usuário
+  score     Float    // Pontuação do questionário
+  city      String    // Pontuação do questionário
+  neighborhood     String    // Pontuação do questionário
+  createdAt DateTime @default(now()) // Data de criação do registro
 }

@@ -15,6 +15,8 @@ model User {
   createdAt DateTime @default(now())
 
   OHQResponse OHQResponse[]
+
+  Feedback Feedback[]
 }
 
 model OHQResponse {
@@ -23,6 +25,7 @@ model OHQResponse {
   user         User      @relation(fields: [userId], references: [id])
   question     Int
   response     Int
+  createdAt DateTime @default(now())
 
   Question Question[]
 }
@@ -38,4 +41,15 @@ model Choice {
   id       Int    @id @default(autoincrement())
   value    Int    // Valor da resposta Likert (1 a 6)
   label    String // Descrição da escolha, por exemplo, "Discordo completamente"
+}
+
+model Feedback {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  score     Float
+  feedback  String
+  createdAt DateTime @default(now())
+
+  // Relacionamento com o usuário, caso tenha um modelo User
+  User User @relation(fields: [userId], references: [id])
 }

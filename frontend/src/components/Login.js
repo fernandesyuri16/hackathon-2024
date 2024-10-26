@@ -23,6 +23,8 @@ function Login() {
 
         const userId = response.data.userId;
 
+        sessionStorage.setItem('userId', userId);
+
         navigate('/questions', { state: { userId } });
       }
     } catch (err) {

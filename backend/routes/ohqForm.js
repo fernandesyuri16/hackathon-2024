@@ -44,17 +44,47 @@ router.post('/submit', async (req, res) => {
 });
 
 
-// Rota para calcular e retornar o resultado do questionário
-router.get('/result/:userId', async (req, res) => {
+// Rota para obter o resultado mais recente ou histórico completo de um usuário
+router.get('/result/:userId/:type?', async (req, res) => {
     const userId = parseInt(req.params.userId, 10);
+    const type = req.params.type; // Pode ser "history" para o histórico completo
+
     try {
-        const responses = await prisma.oHQResponse.findMany({ where: { userId } });
-        const score = calculateOHQScore(responses);
-        const feedback = generateFeedback(score);
-        res.json({ score, feedback });
+        if (type === 'history') {
+            // Retorna o histórico completo dos questionários do usuário
+            const history = await prisma.oHQResponse.findMany({
+                where: { userId },
+                orderBy: { createdAt: 'desc' },
+                select: {
+                    question: true,
+                    response: true,
+                    createdAt: true,
+                },
+            });
+
+            // Formata o histórico para facilitar a leitura
+            const formattedHistory = history.map((result) => ({
+                date: result.createdAt,
+                questionId: result.question,
+                response: result.response,
+            }));
+
+            res.json(formattedHistory);
+        } else {
+            // Retorna apenas o resultado mais recente do usuário
+            const latestResponses = await prisma.oHQResponse.findMany({
+                where: { userId },
+                orderBy: { createdAt: 'desc' },
+                take: 29, // Assumindo que cada questionário tem 29 perguntas
+            });
+
+            const score = calculateOHQScore(latestResponses);
+            const feedback = generateFeedback(score);
+            res.json({ score, feedback });
+        }
     } catch (error) {
-        console.error('Erro ao calcular o resultado:', error);
-        res.status(500).json({ error: 'Falha no cálculo do resultado.' });
+        console.error('Erro ao obter resultados:', error);
+        res.status(500).json({ error: 'Falha ao obter resultados.' });
     }
 });
 

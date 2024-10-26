@@ -1,21 +1,43 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaLock, FaArrowRight, FaEnvelope} from 'react-icons/fa';
+import { FaUser, FaLock, FaArrowRight, FaEnvelope } from 'react-icons/fa';
 import './Register.css';
 
 function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // Estado para controle de carregamento
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setLoading(true); // Ativa o estado de carregamento
+
     try {
       console.log('Cadastrando:', name, email, password);
-      navigate('/'); // Redireciona para a página de login após o cadastro
+
+      const response = await fetch('http://localhost:3000/api/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Erro ao registrar.');
+      }
+
+      console.log('Cadastro bem-sucedido!');
+      setName(''); // Limpa o campo de nome
+      setEmail(''); // Limpa o campo de email
+      setPassword(''); // Limpa o campo de senha
+      navigate('/home'); // Redireciona para a página de login após o cadastro
     } catch (error) {
-      console.error('Erro no cadastro:', error);
+      console.error('Erro no cadastro:', error.message);
+      alert('Erro ao registrar. Tente novamente.');
+    } finally {
+      setLoading(false); // Desativa o estado de carregamento
     }
   };
 
@@ -74,12 +96,16 @@ function Register() {
           </div>
 
           <div className="form__field">
-            <input type="submit" value="Cadastrar" />
+            <input 
+              type="submit" 
+              value={loading ? "Cadastrando..." : "Cadastrar"} 
+              disabled={loading} // Desabilita o botão enquanto carrega
+            />
           </div>
         </form>
 
         <p className="text--center">
-          Já tem uma conta? <a href="/">Faça login</a> <FaArrowRight className="icon" /> {/* Ícone de seta */}
+          Já tem uma conta? <a href="/">Faça login</a> <FaArrowRight className="icon" />
         </p>
       </div>
     </div>

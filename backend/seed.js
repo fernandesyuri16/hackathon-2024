@@ -35,10 +35,12 @@ async function main() {
     { text: "Não tenho, particularmente, lembranças felizes do meu passado", invertScore: true }
   ];
 
-  // Insere perguntas sem validação
+  // Insere perguntas usando upsert para evitar duplicação
   for (const question of questions) {
-    await prisma.question.create({
-      data: question, // Cria a pergunta
+    await prisma.question.upsert({
+      where: { text: question.text },
+      update: {}, // Não faz nada se já existe
+      create: question, // Cria a pergunta se não existe
     });
   }
 
@@ -52,10 +54,12 @@ async function main() {
     { value: 6, label: "Concordo completamente" }
   ];
 
-  // Insere escolhas sem validação
+  // Insere escolhas usando upsert para evitar duplicação
   for (const choice of choices) {
-    await prisma.choice.create({
-      data: choice, // Cria a escolha
+    await prisma.choice.upsert({
+      where: { value: choice.value },
+      update: {}, // Não faz nada se já existe
+      create: choice, // Cria a escolha se não existe
     });
   }
 }

@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  # Banco de dados MySQL
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hackathon-db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - hackathon
+
+  # Backend Node.js
+  backend:
+    build: ./backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    environment:
+      DATABASE_URL: mysql://root:root@mysql:3306/hackathon-db
+    networks:
+      - hackathon
+
+  # Frontend React
+  frontend:
+    build: ./frontend
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+    depends_on:
+      - backend
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - hackathon
+
+volumes:
+  mysql-data:
+
+networks:
+  hackathon:
+    driver: bridge

@@ -1,0 +1,134 @@
+@use postcss-preset-env {
+    stage: 0;
+  }
+
+  .form-register {
+    background-color: var(--bodyBackgroundColor);
+    color: var(--bodyColor);
+    font-family: var(--bodyFontFamily);
+    font-size: var(--bodyFontSize);
+    font-weight: var(--bodyFontWeight);
+    line-height: var(--bodyLineHeight);
+    margin: 0;
+    min-block-size: 100vh;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Layout da grade */
+  .grid {
+    inline-size: 90%;
+    margin-inline: auto;
+    max-inline-size: 20rem;
+  }
+
+  /* Ocultar elementos de acessibilidade */
+  .hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  /* Estilo dos ícones */
+  .icon {
+    block-size: 1em;
+    display: inline-block;
+    fill: var(--iconFill);
+    inline-size: 1em;
+    vertical-align: middle;
+  }
+
+  .icons {
+    display: none;
+  }
+
+  /* Estilos gerais do formulário */
+  .form {
+    display: grid;
+    gap: var(--formGap);
+  }
+
+  .form__field {
+    display: flex;
+  }
+
+  .form__input {
+    flex: 1;
+  }
+
+  /* Input e botões */
+  .form input[type="text"],
+  .form input[type="email"],
+  .form input[type="password"],
+  .form input[type="submit"] {
+    inline-size: 100%;
+    background-color: var(--loginInputBackgroundColor);
+    color: var(--loginColor);
+    border: 0;
+    padding: 1rem;
+    border-radius: var(--loginBorderRadius);
+    transition: background-color 0.3s;
+  }
+
+  .form input[type="submit"] {
+    background-color: var(--loginSubmitBackgroundColor);
+    color: var(--loginSubmitColor);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px black;
+    cursor: pointer;
+  }
+
+  /* Efeitos de hover e focus */
+  .form input[type="email"]:hover,
+  .form input[type="email"]:focus,
+  .form input[type="password"]:hover,
+  .form input[type="password"]:focus,
+  .form input[type="text"]:hover,
+  .form input[type="text"]:focus {
+    background-color: var(--loginInputHoverBackgroundColor);
+  }
+
+  .form input[type="submit"]:hover,
+  .form input[type="submit"]:focus {
+    background-color: var(--loginSubmitHoverBackgroundColor);
+  }
+
+  /* Estilo do label */
+  .form label {
+    background-color: var(--loginLabelBackgroundColor);
+    padding-inline: 1.25rem;
+    border-radius: var(--loginBorderRadius);
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+
+  .form input[type="email"],
+  .form input[type="password"],
+  .form input[type="text"] {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  /* Estilo dos links */
+  a {
+    color: var(--anchorColor);
+    outline: 0;
+    text-decoration: none;
+    text-shadow: 0 0 5px black;
+  }
+
+  a:focus,
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Centralização de texto */
+  .text--center {
+    text-align: center;
+  }

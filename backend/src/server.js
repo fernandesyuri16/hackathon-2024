@@ -4,6 +4,8 @@ const dotenv = require('dotenv');
 const bcrypt = require('bcrypt');
 const { PrismaClient } = require('@prisma/client');
 
+const ohqRoutes = require('../routes/ohqForm.js'); // Ajuste o caminho conforme necessário
+
 dotenv.config();
 
 const app = express();
@@ -21,7 +23,6 @@ app.get('/api/users', async (req, res) => {
 // Rota para criar um usuário
 app.post('/api/users', async (req, res) => {
   const { name, email, password } = req.body;
-  console.log('opa');
   try {
     // Criptografa a senha antes de salvar
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -41,6 +42,8 @@ app.post('/api/login', async (req, res) => {
       where: { email },
     });
 
+    const userId = user.id;
+
     if (!user) {
       return res.status(400).json({ message: 'Usuário não encontrado' });
     }
@@ -50,11 +53,14 @@ app.post('/api/login', async (req, res) => {
       return res.status(400).json({ message: 'Senha incorreta' });
     }
 
-    res.json({ message: 'Login bem-sucedido' });
+    res.json({ message: 'Login bem-sucedido', userId});
   } catch (error) {
     res.status(500).json({ error: 'Erro no servidor' });
   }
 });
+
+// Configurar as rotas do questionário OHQ
+app.use('/api', ohqRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

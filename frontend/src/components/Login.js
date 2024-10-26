@@ -20,7 +20,10 @@ function Login() {
 
       // Se o login for bem-sucedido, redireciona para login-success
       if (response.data.message === 'Login bem-sucedido') {
-        navigate('/home');
+
+        const userId = response.data.userId;
+
+        navigate('/questions', { state: { userId } });
       }
     } catch (err) {
       // Exibe erro caso as credenciais estejam erradas

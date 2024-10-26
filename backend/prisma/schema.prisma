@@ -13,4 +13,29 @@ model User {
   name      String
   password  String
   createdAt DateTime @default(now())
+
+  OHQResponse OHQResponse[]
+}
+
+model OHQResponse {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id])
+  question     Int
+  response     Int
+
+  Question Question[]
+}
+
+model Question {
+  id          Int     @id @default(autoincrement())
+  text        String
+  invertScore Boolean @default(false) // Define se a pergunta precisa de inversão no cálculo do score, no caso de determinadas questões
+  responses   OHQResponse[]
+}
+
+model Choice {
+  id       Int    @id @default(autoincrement())
+  value    Int    // Valor da resposta Likert (1 a 6)
+  label    String // Descrição da escolha, por exemplo, "Discordo completamente"
 }

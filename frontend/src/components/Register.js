@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaLock, FaArrowRight, FaEnvelope } from 'react-icons/fa';
 import './Register.css';
-import axios from 'axios'
+import axios from 'axios';
+import logo from './logo.png';
 
 function Register() {
   const [name, setName] = useState('');
@@ -42,6 +43,9 @@ function Register() {
   return (
     <div className="form-register">
       <div className="grid">
+        <div className="logo-container">
+          <img src={logo} alt="LifeScore Logo" className="logo" />
+        </div>
         <form onSubmit={handleRegister} className="form login">
           <h2 className="text--center">Cadastro</h2>
 

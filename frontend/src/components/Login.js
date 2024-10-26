@@ -4,6 +4,7 @@ import { FaLock, FaEnvelope} from 'react-icons/fa';
 import './Login.css';
 import '../App.css';
 import axios from 'axios';
+import logo from './logo.png';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -36,6 +37,9 @@ function Login() {
   return (
     <div className="form-login">
       <div className="grid">
+        <div className="logo-container">
+          <img src={logo} alt="LifeScore Logo" className="logo" />
+        </div>
         <form onSubmit={handleLogin} className="form login">
           <h2 className="text--center">Login</h2>
           <div className="form__field">

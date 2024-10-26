@@ -99,3 +99,14 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-left: 50px;
+}
+
+.logo {
+  max-width: 220px; /* ajuste conforme necessário */
+  height: auto;
+}

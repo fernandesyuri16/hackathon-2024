@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './OHQForm.css';
 import '../App.css';
+import logo from './logo.png';
+
 
 export default function OHQForm() {
     // const location = useLocation();
@@ -76,6 +78,9 @@ export default function OHQForm() {
     return (
         <div className="form-ohq">
             <div className="grid">
+            <div className="logo-container">
+                <img src={logo} alt="LifeScore Logo" className="logo" />
+            </div>
                 <form onSubmit={handleSubmit} className="form">
                     {currentQuestion ? (
                         <div className="question-container" key={currentQuestion.id}>
